@@ -1,7 +1,3 @@
-Here's the updated version without the Academic Integrity Statement:
-
----
-
 # AI Assistance Transparency Log
 
 **Project:** Event Registration & Ticketing System API
