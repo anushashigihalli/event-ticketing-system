@@ -2,14 +2,14 @@
 
 A production-ready REST API for event registration and ticketing built with Go, featuring robust concurrency control to prevent overbooking scenarios.
 
-## 🎯 Project Overview
+##  Project Overview
 
 This system allows:
 - **Users**: Browse events and register for tickets
 - **Organizers**: Create events with limited capacity
 - **System**: Prevent overbooking when multiple users book simultaneously
 
-## 🏗️ Architecture
+## Architecture
 
 ### Technology Stack
 - **Language**: Go 1.21+
@@ -24,7 +24,7 @@ This system allows:
 3. **Database Transactions**: ACID compliance for data integrity
 4. **Standard Library**: Minimal dependencies for reliability and performance
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 event-ticketing-system/
@@ -38,7 +38,7 @@ event-ticketing-system/
     └── ai-prompts.md      # AI assistance transparency log
 ```
 
-## 🗄️ Database Schema
+##  Database Schema
 
 ### Events Table
 ```sql
@@ -70,7 +70,7 @@ CREATE TABLE bookings (
 );
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Go 1.21 or higher
@@ -96,7 +96,7 @@ go run main.go
 
 Server starts at `http://localhost:8080`
 
-## 📡 API Endpoints
+##  API Endpoints
 
 ### 1. Create Event
 ```bash
@@ -148,7 +148,7 @@ GET /bookings?email=user@example.com
 GET /bookings/check?event_id=1
 ```
 
-## 🧪 Testing
+## Testing
 
 ### Manual Testing with curl
 
@@ -184,7 +184,7 @@ go run test_concurrency.go
 
 This simulates 10 concurrent users trying to book the last 5 seats, verifying no overbooking occurs.
 
-## 🔒 Concurrency Control
+##  Concurrency Control
 
 ### The Problem
 When multiple users simultaneously book the last available seats, without proper synchronization:
@@ -222,14 +222,14 @@ func createBooking(w http.ResponseWriter, r *http.Request) {
 2. **Database Transaction**: Ensures atomicity
 3. **Row-level checks**: Validates availability before update
 
-## 📊 Performance Considerations
+##  Performance Considerations
 
 - **Mutex scope**: Minimal lock duration for better throughput
 - **Database indexes**: Fast lookups on event_id and user_email
 - **Connection pooling**: SQLite handles concurrent reads efficiently
 - **Transaction isolation**: Prevents dirty reads
 
-## 🎓 Learning Outcomes
+##  Learning Outcomes
 
 1. **Concurrency patterns** in Go using sync.Mutex
 2. **Race condition prevention** in real-world scenarios
@@ -237,7 +237,7 @@ func createBooking(w http.ResponseWriter, r *http.Request) {
 4. **RESTful API design** with standard library
 5. **Error handling** and validation best practices
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 1. **Authentication & Authorization**: JWT-based user authentication
 2. **Payment Integration**: Stripe/Razorpay for actual payments
@@ -250,17 +250,17 @@ func createBooking(w http.ResponseWriter, r *http.Request) {
 9. **WebSocket**: Real-time seat availability updates
 10. **Admin Dashboard**: Web UI for organizers
 
-## 👨‍💻 Author
+##  Author
 
-**[Your Name]**
-- GitHub: [@your-username](https://github.com/your-username)
-- Email: your.email@example.com
+**Anusha Umesh Shigihalli**
+- GitHub: [@anushashigihalli](https://github.com/anushashigihalli)
+- Email: anushashigihalli6@gmail.com
 
-## 📄 License
+## License
 
 This project is created for academic purposes as part of Infosys Capstone Project.
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Infosys Springboard for project guidelines
 - Go community for excellent documentation
