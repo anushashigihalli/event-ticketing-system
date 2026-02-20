@@ -10,9 +10,9 @@ go run main.go
 
 You should see:
 ```
-✅ Database connected successfully
-✅ Database migrations completed
-🚀 Server starting on http://localhost:8080
+ Database connected successfully
+ Database migrations completed
+ Server starting on http://localhost:8080
 ```
 
 ### Step 2: Test API Endpoints
@@ -103,31 +103,31 @@ go run test_concurrency.go
 
 Expected Output:
 ```
-🧪 Starting Concurrency Test for Overbooking Prevention
+ Starting Concurrency Test for Overbooking Prevention
 ============================================================
-✅ Created test event with ID: 2 (Capacity: 5 seats)
+ Created test event with ID: 2 (Capacity: 5 seats)
 
-🚀 Simulating 10 concurrent booking requests...
+ Simulating 10 concurrent booking requests...
 
-✅ User 1: Booking confirmed
-✅ User 3: Booking confirmed
-✅ User 2: Booking confirmed
-✅ User 5: Booking confirmed
-✅ User 4: Booking confirmed
-❌ User 6: Booking failed - Not enough seats available. Only 0 seats left
-❌ User 7: Booking failed - Not enough seats available. Only 0 seats left
-❌ User 8: Booking failed - Not enough seats available. Only 0 seats left
-❌ User 9: Booking failed - Not enough seats available. Only 0 seats left
-❌ User 10: Booking failed - Not enough seats available. Only 0 seats left
+ User 1: Booking confirmed
+ User 3: Booking confirmed
+ User 2: Booking confirmed
+ User 5: Booking confirmed
+ User 4: Booking confirmed
+ User 6: Booking failed - Not enough seats available. Only 0 seats left
+ User 7: Booking failed - Not enough seats available. Only 0 seats left
+ User 8: Booking failed - Not enough seats available. Only 0 seats left
+ User 9: Booking failed - Not enough seats available. Only 0 seats left
+ User 10: Booking failed - Not enough seats available. Only 0 seats left
 
 ============================================================
-📊 CONCURRENCY TEST RESULTS
+ CONCURRENCY TEST RESULTS
 ============================================================
-✅ Successful bookings: 5
-❌ Failed bookings: 5
-⏱️  Total time: 45ms
+ Successful bookings: 5
+ Failed bookings: 5
+  Total time: 45ms
 ============================================================
-✅ TEST PASSED: No overbooking occurred!
+ TEST PASSED: No overbooking occurred!
    Mutex successfully prevented race conditions.
 ```
 
@@ -202,9 +202,9 @@ Expected performance on average hardware:
 
 ## Success Criteria
 
-✅ All API endpoints return correct responses  
-✅ Database persists data correctly  
-✅ Concurrency test shows exactly 5 successes and 5 failures  
-✅ No overbooking occurs under any scenario  
-✅ Error messages are clear and helpful  
-✅ Server handles invalid requests gracefully
+- All API endpoints return correct responses  
+- Database persists data correctly  
+- Concurrency test shows exactly 5 successes and 5 failures  
+- No overbooking occurs under any scenario  
+- Error messages are clear and helpful  
+- Server handles invalid requests gracefully
