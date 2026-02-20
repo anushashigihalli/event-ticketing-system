@@ -268,4 +268,4 @@ This project is created for academic purposes as part of Infosys Capstone Projec
 
 ---
 
-**Note**: This project demonstrates production-ready code practices while maintaining simplicity suitable for a 1-day implementation timeline.
+
