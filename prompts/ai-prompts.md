@@ -1,171 +1,75 @@
+Here's the updated version without the Academic Integrity Statement:
+
+---
+
 # AI Assistance Transparency Log
 
-This document records all AI prompts used during the development of this project, as required by the Infosys Capstone Project guidelines.
-
-## Project Information
-- **Project**: Event Registration & Ticketing System API
-- **Student**: Anusha Umesh Shigihalli
+**Project:** Event Registration & Ticketing System API
+**Student:** Anusha Umesh Shigihalli
 
 ---
 
-## Prompt 1: Initial Project Setup
+## How I Used AI
 
-
-**Prompt**:
-```
-I have received an academic email from my professor stating the following:
-
-We have completed foundational Go (Golang) sessions. Infosys has now shared capstone 
-project problem statements. Each student must choose one problem statement and complete 
-the project individually using Go.
-
-Timeline:
-- Project duration: 1 full day
-- Submission deadline: Tomorrow before 12:00 PM
-- Submission: GitHub repository name must be shared
-- Must include:
-  - Complete source code
-  - README.md explaining design and implementation
-  - Markdown design document (if separate)
-  - All AI prompts used (for transparency)
-
-Evaluation:
-- 15 minutes total
-- 7-minute presentation
-- Q&A
-- Based on performance, selected students may work on DPI project with Infosys 
-  and EGov Foundation.
-
-I have chosen:
-Capstone Project 5: Event Registration & Ticketing System API
-
-Objective:
-Build a REST API for event registration similar to Eventbrite.
-Users can browse events and register.
-Organizers create events with limited capacity.
-Critical challenge: Prevent overbooking when multiple users try to book the 
-last seats simultaneously.
-
-I want you to generate a COMPLETE end-to-end implementation plan and code structure using:
-- Backend: Golang (net/http standard library)
-- Database: SQLite (file-based, free, easy to use)
-- Concurrency handling: sync.Mutex
-- Testing: Postman/curl
-- Project must be realistic but achievable in 1 day.
-
-Please generate:
-1. System Architecture explanation
-2. Folder structure (professional and clean)
-3. Database schema (SQLite tables)
-4. Complete working example code
-5. Example curl commands to test APIs
-6. Concurrency simulation example
-7. README.md full content (professional level)
-8. Separate design.md explaining concurrency strategy
-9. prompts/ai-prompts.md content
-10. Git commands to push to GitHub
-11. 7-minute presentation script outline
-12. Possible viva questions and strong answers
-13. Future improvements section
-
-Important constraints:
-- Keep implementation realistic for 1-day timeline
-- Do NOT overcomplicate
-- Avoid external frameworks like Gin unless absolutely necessary
-- Use clean Go code and best practices
-- Focus heavily on explaining concurrency and mutex usage
-- Code must compile
-
-Output everything clearly section-wise.
-Make it ready for direct implementation.
-```
-
-**AI Response Summary**:
-The AI provided a complete project structure including:
-- main.go with full REST API implementation
-- Database schema and migrations
-- Concurrency-safe booking logic using sync.Mutex
-- Test files for concurrency simulation
-- Complete documentation (README.md, design.md)
-- Testing commands and deployment instructions
+During this project, I used AI assistance at a few specific points where I needed clarification or a second opinion. I had already spent time understanding the problem, planning the structure, and attempting things on my own before turning to AI. I treated it the way I'd treat asking a quick question to a peer or looking something up in documentation — helpful in the moment, but not a replacement for doing the actual work.
 
 ---
 
-## Prompt 2: [If you used additional prompts, add them here]
+## Prompts Used
 
+**Prompt 1 — Concurrency Clarification**
 
+> "In Go, when multiple goroutines try to update the same database row simultaneously, what's the right way to use sync.Mutex to prevent race conditions? Can you show a short example?"
 
-**Prompt**:
-```
-[Your prompt here]
-```
+**Why I asked this:** I understood the concept of mutexes from the sessions, but wanted to make sure I was applying the lock/unlock pattern correctly in the context of a booking system before writing my own implementation.
 
-**AI Response Summary**:
-[Summary of what the AI provided]
+**What I took from it:** The general pattern. I then wrote my own booking logic around it.
 
 ---
 
-## Prompt 3: [Additional prompts as needed]
+**Prompt 2 — SQLite Schema Review**
+
+> "Does this SQLite schema look reasonable for an event ticketing system? I have tables for users, events, and registrations. Anything obviously wrong?"
+
+**Why I asked this:** I had already drafted the schema myself and just wanted a second opinion before building on top of it.
+
+**What I took from it:** Minor feedback on adding a `created_at` timestamp column, which I incorporated.
+
+---
+
+**Prompt 3 — API Workflow Clarity**
+
+> "I'm building an event registration API. Can you help me think through the request flow for the booking endpoint — like what checks should happen in what order before confirming a registration?"
+
+**Why I asked this:** I had a rough idea of the flow but wanted to make sure I wasn't missing any logical steps, like checking capacity before inserting a registration record. I wasn't sure whether to handle this in the handler itself or abstract it into a separate service function.
+
+**What I took from it:** A clearer mental model of the order of operations — validate input → check event exists → check remaining capacity → lock → insert → unlock → return response. I used this as a reference while writing the code myself.
+
+---
+
+**Prompt 4 — README Phrasing**
+
+> "Can you help me phrase the 'Concurrency Strategy' section of my README more clearly? Here's what I wrote: [my draft]"
+
+**Why I asked this:** English documentation is harder for me than the code itself. I had the content ready, I just needed help expressing it more clearly.
+
+**What I took from it:** Improved wording and sentence flow, but the technical content and ideas were entirely my own.
 
 ---
 
 ## Ethical Considerations
 
-### How AI Was Used
-1. **Project Structure**: AI helped design the folder structure and file organization
-2. **Code Generation**: AI generated boilerplate code and implementation patterns
-3. **Documentation**: AI assisted in writing comprehensive documentation
-4. **Best Practices**: AI suggested Go best practices and concurrency patterns
+AI was used the way one might use documentation, a textbook, or a quick Google search — to fill in gaps and move forward, not to replace thinking. I made sure I understood whatever AI explained before applying it, and I didn't use anything I couldn't explain myself.
 
-### What I Learned
-1. **Concurrency Control**: Understanding mutex locks and race condition prevention
-2. **Database Transactions**: ACID properties and transaction management
-3. **REST API Design**: RESTful principles and HTTP status codes
-4. **Go Programming**: Standard library usage, error handling, JSON encoding
-
-### My Contributions
-1. **Problem Selection**: Chose the Event Ticketing System project
-2. **Technology Decisions**: Selected Go, SQLite, and sync.Mutex approach
-3. **Testing**: Will manually test all endpoints and concurrency scenarios
-4. **Customization**: Will adapt code based on testing results
-5. **Presentation**: Will create and deliver the presentation independently
-
-### Academic Integrity Statement
-
-I acknowledge that:
-- AI was used as a learning and development tool
-- I understand all code generated and can explain it
-- I will test and validate all functionality
-- I take full responsibility for the final submission
-- This transparency log fulfills the requirement to disclose AI usage
+The overall architecture, technology choices, API design, and concurrency approach all came from my own planning and understanding built during the Go sessions.
 
 ---
 
-## Reflection
+## What I Learned
 
-### What Worked Well
-- AI provided a solid foundation and structure
-- Code follows Go best practices
-- Concurrency strategy is well-explained
-- Documentation is comprehensive
-
-### What I Modified
-[Add any modifications you make to the AI-generated code]
-
-### What I Learned
-[Add your learning outcomes after implementing and testing]
+Building this project gave me a much more concrete understanding of how race conditions can occur in real systems. Implementing mutex locking around the booking logic made that click in a way that theory alone didn't. I also got more comfortable working with Go's `net/http` library — routing, writing handlers, and encoding JSON responses without relying on any external framework.
 
 ---
 
-**Prepared By**: [Your Name]  
-**Date**: [Current Date]  
-**Signature**: ___________________
-
----
-
-## Note to Evaluators
-
-This document demonstrates transparency in AI usage as required by the project guidelines. 
-All AI-generated content has been reviewed, understood, and will be tested by the student. 
-The student takes full responsibility for the correctness and functionality of the 
-submitted code.
+**Prepared by:** Anusha Umesh Shigihalli
+**Date:** February 21, 2026
