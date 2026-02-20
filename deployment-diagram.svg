@@ -1,0 +1,254 @@
+<svg viewBox="0 0 780 680" xmlns="http://www.w3.org/2000/svg" font-family="'Courier New', monospace">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#334155"/>
+    </marker>
+    <marker id="arr-w" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0,10 3.5,0 7" fill="#fff"/>
+    </marker>
+    <filter id="sh">
+      <feDropShadow dx="1" dy="2" stdDeviation="3" flood-color="#00000020"/>
+    </filter>
+    <filter id="sh2">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#00000015"/>
+    </filter>
+  </defs>
+
+  <rect width="780" height="680" fill="#f8fafc"/>
+
+  <!-- Master title -->
+  <text x="390" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#0f172a" letter-spacing="0.5">«deployment» Environment Topology — Dev vs Production</text>
+
+  <!-- ══════════════════════════════════════════════════
+       LEFT FRAME — DEVELOPMENT
+  ══════════════════════════════════════════════════ -->
+  <!-- UML frame border -->
+  <rect x="18" y="36" width="358" height="290" rx="0" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+  <!-- frame name tab (pentagonal) -->
+  <polygon points="18,36 168,36 184,54 18,54" fill="#0284c7"/>
+  <text x="26" y="49" font-size="9" font-weight="bold" fill="#fff" letter-spacing="0.5">«environment»</text>
+  <text x="110" y="49" font-size="9" fill="#bae6fd">DEVELOPMENT</text>
+
+  <!-- Node: Developer Machine -->
+  <rect x="36" y="62" width="322" height="248" rx="5" fill="#fff" stroke="#38bdf8" stroke-width="1.8" filter="url(#sh)"/>
+  <!-- node header with 3D tab -->
+  <rect x="36" y="62" width="322" height="28" rx="5" fill="#0284c7"/>
+  <rect x="36" y="72" width="322" height="18" fill="#0284c7"/>
+  <!-- 3D corner tab (UML node notation) -->
+  <polygon points="334,62 358,62 358,86 334,86" fill="#0369a1" stroke="#0284c7" stroke-width="1"/>
+  <line x1="334" y1="62" x2="358" y2="62" stroke="#7dd3fc" stroke-width="1"/>
+  <line x1="334" y1="86" x2="358" y2="86" stroke="#7dd3fc" stroke-width="1"/>
+  <line x1="334" y1="62" x2="334" y2="86" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="56"  y="76" font-size="9" font-style="italic" fill="#bae6fd">«device»</text>
+  <text x="126" y="76" font-size="11" font-weight="bold" fill="#fff">Developer Machine</text>
+
+  <!-- Artifact: go run main.go -->
+  <rect x="56" y="100" width="286" height="34" rx="4" fill="#dbeafe" stroke="#60a5fa" stroke-width="1.5" filter="url(#sh2)"/>
+  <text x="62"  y="114" font-size="9" font-style="italic" fill="#1d4ed8">«artifact»</text>
+  <text x="134" y="114" font-size="10" font-weight="bold" fill="#0f172a">go run main.go</text>
+  <text x="62"  y="126" font-size="9" fill="#475569">  Compiled Go binary  ·  Port 8080  ·  Hot reload</text>
+
+  <!-- Component: HTTP Server -->
+  <rect x="56" y="144" width="134" height="72" rx="4" fill="#f0f9ff" stroke="#38bdf8" stroke-width="1.5" filter="url(#sh2)"/>
+  <!-- component notation tabs -->
+  <rect x="176" y="144" width="10" height="8" rx="1" fill="#0284c7"/>
+  <rect x="176" y="156" width="10" height="8" rx="1" fill="#0284c7"/>
+  <text x="70"  y="160" font-size="8" font-style="italic" fill="#0369a1">«component»</text>
+  <text x="70"  y="173" font-size="9" font-weight="bold" fill="#0f172a">HTTP Server</text>
+  <text x="70"  y="185" font-size="8" fill="#475569">localhost:8080</text>
+  <text x="70"  y="197" font-size="8" fill="#475569">net/http</text>
+  <text x="70"  y="209" font-size="8" fill="#475569">sync.Mutex</text>
+
+  <!-- Database: events.db -->
+  <rect x="208" y="144" width="134" height="72" rx="4" fill="#faf5ff" stroke="#a78bfa" stroke-width="1.5" filter="url(#sh2)"/>
+  <!-- cylinder ellipse top -->
+  <ellipse cx="275" cy="152" rx="55" ry="8" fill="#ede9fe" stroke="#a78bfa" stroke-width="1"/>
+  <text x="275" y="172" text-anchor="middle" font-size="8" font-style="italic" fill="#6d28d9">«database»</text>
+  <text x="275" y="185" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">events.db</text>
+  <text x="275" y="198" text-anchor="middle" font-size="8" fill="#475569">SQLite3</text>
+  <text x="275" y="210" text-anchor="middle" font-size="8" fill="#475569">Local file</text>
+
+  <!-- connection line server→db -->
+  <line x1="190" y1="180" x2="208" y2="180" stroke="#6d28d9" stroke-width="1.4" stroke-dasharray="4 2" marker-end="url(#arr)"/>
+
+  <!-- Tool: curl -->
+  <rect x="56" y="226" width="286" height="30" rx="4" fill="#fef9c3" stroke="#fde047" stroke-width="1.3"/>
+  <text x="62"  y="240" font-size="8" font-style="italic" fill="#854d0e">«tool»</text>
+  <text x="104" y="240" font-size="9" fill="#0f172a">curl / Postman</text>
+  <text x="200" y="240" font-size="8" fill="#475569">  Manual testing  ·  HTTP client</text>
+  <line x1="180" y1="226" x2="180" y2="216" stroke="#fbbf24" stroke-width="1.2" stroke-dasharray="3 2" marker-end="url(#arr)"/>
+
+  <!-- note box -->
+  <rect x="56" y="264" width="286" height="34" rx="3" fill="#fff7ed" stroke="#fed7aa" stroke-width="1" stroke-dasharray="4 2"/>
+  <text x="62" y="277" font-size="8" font-style="italic" fill="#c2410c">note:</text>
+  <text x="90" y="277" font-size="8" fill="#475569">Single process  ·  No replication  ·  File-based DB</text>
+  <text x="62" y="289" font-size="8" fill="#475569">      Suitable for development &amp; prototyping only</text>
+
+  <!-- ══════════════════════════════════════════════════
+       RIGHT FRAME — PRODUCTION
+  ══════════════════════════════════════════════════ -->
+  <!-- UML frame border -->
+  <rect x="402" y="36" width="360" height="600" rx="0" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <!-- frame name tab -->
+  <polygon points="402,36 570,36 586,54 402,54" fill="#15803d"/>
+  <text x="410" y="49" font-size="9" font-weight="bold" fill="#fff" letter-spacing="0.5">«environment»</text>
+  <text x="502" y="49" font-size="9" fill="#bbf7d0">PRODUCTION  (Future)</text>
+
+  <!-- Node: Cloud Platform -->
+  <rect x="420" y="62" width="324" height="554" rx="5" fill="#fff" stroke="#4ade80" stroke-width="1.8" filter="url(#sh)"/>
+  <!-- node header -->
+  <rect x="420" y="62" width="324" height="28" rx="5" fill="#15803d"/>
+  <rect x="420" y="72" width="324" height="18" fill="#15803d"/>
+  <!-- 3D tab -->
+  <polygon points="720,62 744,62 744,90 720,90" fill="#166534" stroke="#4ade80" stroke-width="1"/>
+  <line x1="720" y1="62" x2="744" y2="62" stroke="#86efac" stroke-width="1"/>
+  <line x1="720" y1="90" x2="744" y2="90" stroke="#86efac" stroke-width="1"/>
+  <line x1="720" y1="62" x2="720" y2="90" stroke="#86efac" stroke-width="1"/>
+  <text x="440" y="76" font-size="9" font-style="italic" fill="#86efac">«execution environment»</text>
+  <text x="554" y="76" font-size="10" font-weight="bold" fill="#fff">Cloud Platform</text>
+  <text x="440" y="88" font-size="8" fill="#bbf7d0">AWS  ·  GCP  ·  Heroku  ·  Railway</text>
+
+  <!-- Load Balancer -->
+  <rect x="440" y="102" width="284" height="46" rx="4" fill="#dcfce7" stroke="#22c55e" stroke-width="1.8" filter="url(#sh2)"/>
+  <text x="460" y="119" font-size="9" font-style="italic" fill="#15803d">«component»</text>
+  <text x="544" y="119" font-size="11" font-weight="bold" fill="#0f172a">Load Balancer</text>
+  <text x="460" y="134" font-size="8" fill="#475569">Round-robin  ·  Health checks  ·  SSL termination  ·  Port 443/80</text>
+
+  <!-- Fan-out arrows LB → servers -->
+  <line x1="504" y1="148" x2="488" y2="188" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="582" y1="148" x2="582" y2="188" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr)"/>
+  <line x1="660" y1="148" x2="676" y2="188" stroke="#16a34a" stroke-width="1.4" marker-end="url(#arr)"/>
+
+  <!-- Server 1 -->
+  <rect x="440" y="188" width="102" height="84" rx="4" fill="#f0f9ff" stroke="#38bdf8" stroke-width="1.5" filter="url(#sh2)"/>
+  <rect x="440" y="188" width="102" height="20" rx="4" fill="#0284c7"/>
+  <rect x="440" y="198" width="102" height="10" fill="#0284c7"/>
+  <!-- 3D mini tab -->
+  <polygon points="524,188 542,188 542,208 524,208" fill="#0369a1" stroke="#0284c7" stroke-width="0.8"/>
+  <text x="466" y="200" font-size="8" font-weight="bold" fill="#fff">Server 1</text>
+  <text x="452" y="221" font-size="8" font-style="italic" fill="#0369a1">«artifact»</text>
+  <text x="452" y="233" font-size="8" font-weight="bold" fill="#0f172a">Go Binary</text>
+  <text x="452" y="245" font-size="7" fill="#475569">:8080</text>
+  <text x="452" y="257" font-size="7" fill="#475569">sync.Mutex</text>
+  <text x="452" y="269" font-size="7" fill="#475569">net/http</text>
+
+  <!-- Server 2 -->
+  <rect x="557" y="188" width="102" height="84" rx="4" fill="#f0f9ff" stroke="#38bdf8" stroke-width="1.5" filter="url(#sh2)"/>
+  <rect x="557" y="188" width="102" height="20" rx="4" fill="#0284c7"/>
+  <rect x="557" y="198" width="102" height="10" fill="#0284c7"/>
+  <polygon points="641,188 659,188 659,208 641,208" fill="#0369a1" stroke="#0284c7" stroke-width="0.8"/>
+  <text x="583" y="200" font-size="8" font-weight="bold" fill="#fff">Server 2</text>
+  <text x="569" y="221" font-size="8" font-style="italic" fill="#0369a1">«artifact»</text>
+  <text x="569" y="233" font-size="8" font-weight="bold" fill="#0f172a">Go Binary</text>
+  <text x="569" y="245" font-size="7" fill="#475569">:8080</text>
+  <text x="569" y="257" font-size="7" fill="#475569">sync.Mutex</text>
+  <text x="569" y="269" font-size="7" fill="#475569">net/http</text>
+
+  <!-- Server 3 -->
+  <rect x="674" y="188" width="102" height="84" rx="4" fill="#f0f9ff" stroke="#38bdf8" stroke-width="1.5" filter="url(#sh2)"/>
+  <rect x="674" y="188" width="102" height="20" rx="4" fill="#0284c7"/>
+  <rect x="674" y="198" width="102" height="10" fill="#0284c7"/>
+  <polygon points="758,188 762,188 762,208 758,208" fill="#0369a1" stroke="#0284c7" stroke-width="0.8"/>
+  <text x="700" y="200" font-size="8" font-weight="bold" fill="#fff">Server 3</text>
+  <text x="686" y="221" font-size="8" font-style="italic" fill="#0369a1">«artifact»</text>
+  <text x="686" y="233" font-size="8" font-weight="bold" fill="#0f172a">Go Binary</text>
+  <text x="686" y="245" font-size="7" fill="#475569">:8080</text>
+  <text x="686" y="257" font-size="7" fill="#475569">sync.Mutex</text>
+  <text x="686" y="269" font-size="7" fill="#475569">net/http</text>
+
+  <!-- Fan-in lines servers → DB -->
+  <line x1="491" y1="272" x2="491" y2="308" stroke="#6d28d9" stroke-width="1.3" stroke-dasharray="4 2"/>
+  <line x1="582" y1="272" x2="582" y2="308" stroke="#6d28d9" stroke-width="1.3" stroke-dasharray="4 2"/>
+  <line x1="725" y1="272" x2="725" y2="308" stroke="#6d28d9" stroke-width="1.3" stroke-dasharray="4 2"/>
+  <line x1="491" y1="308" x2="725" y2="308" stroke="#6d28d9" stroke-width="1.3" stroke-dasharray="4 2"/>
+  <line x1="582" y1="308" x2="582" y2="326" stroke="#6d28d9" stroke-width="1.6" marker-end="url(#arr)"/>
+  <text x="600" y="318" font-size="8" fill="#6d28d9">«SQL»</text>
+
+  <!-- PostgreSQL Primary -->
+  <rect x="462" y="326" width="240" height="72" rx="5" fill="#faf5ff" stroke="#a78bfa" stroke-width="1.8" filter="url(#sh)"/>
+  <ellipse cx="582" cy="334" rx="108" ry="10" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.3"/>
+  <text x="582" y="356" text-anchor="middle" font-size="9" font-style="italic" fill="#6d28d9">«database»</text>
+  <text x="582" y="370" text-anchor="middle" font-size="11" font-weight="bold" fill="#0f172a">PostgreSQL</text>
+  <text x="582" y="384" text-anchor="middle" font-size="8" fill="#475569">Primary  ·  ACID  ·  Connection Pool</text>
+
+  <!-- Replication arrow -->
+  <line x1="582" y1="398" x2="582" y2="424" stroke="#7c3aed" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#arr)"/>
+  <rect x="528" y="404" width="108" height="14" rx="7" fill="#ede9fe" stroke="#a78bfa" stroke-width="1"/>
+  <text x="582" y="415" text-anchor="middle" font-size="8" fill="#6d28d9">«replication»</text>
+
+  <!-- Read Replicas -->
+  <rect x="440" y="424" width="130" height="56" rx="4" fill="#faf5ff" stroke="#c4b5fd" stroke-width="1.3" filter="url(#sh2)"/>
+  <ellipse cx="505" cy="430" rx="58" ry="7" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="505" y="447" text-anchor="middle" font-size="8" font-style="italic" fill="#7c3aed">«database»</text>
+  <text x="505" y="460" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">Read Replica 1</text>
+  <text x="505" y="473" text-anchor="middle" font-size="7" fill="#475569">Async replication</text>
+
+  <rect x="594" y="424" width="130" height="56" rx="4" fill="#faf5ff" stroke="#c4b5fd" stroke-width="1.3" filter="url(#sh2)"/>
+  <ellipse cx="659" cy="430" rx="58" ry="7" fill="#ede9fe" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="659" y="447" text-anchor="middle" font-size="8" font-style="italic" fill="#7c3aed">«database»</text>
+  <text x="659" y="460" text-anchor="middle" font-size="9" font-weight="bold" fill="#0f172a">Read Replica 2</text>
+  <text x="659" y="473" text-anchor="middle" font-size="7" fill="#475569">Async replication</text>
+
+  <!-- replication fan lines -->
+  <line x1="540" y1="424" x2="516" y2="424" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="3 2" marker-end="url(#arr)"/>
+  <line x1="624" y1="424" x2="648" y2="424" stroke="#a78bfa" stroke-width="1.2" stroke-dasharray="3 2" marker-end="url(#arr)"/>
+
+  <!-- Warning note -->
+  <rect x="440" y="494" width="284" height="52" rx="4" fill="#fff7ed" stroke="#fed7aa" stroke-width="1.3" stroke-dasharray="5 3"/>
+  <text x="450" y="508" font-size="9" font-style="italic" fill="#c2410c">«constraint»  Migration notes:</text>
+  <text x="450" y="521" font-size="8" fill="#475569">• Replace sync.Mutex with DB-level row locking</text>
+  <text x="450" y="533" font-size="8" fill="#475569">• Use SELECT FOR UPDATE for distributed concurrency</text>
+  <text x="450" y="545" font-size="8" fill="#475569">• Add connection pooling (pgxpool / database/sql MaxOpen)</text>
+
+  <!-- Infra note -->
+  <rect x="440" y="556" width="284" height="48" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1" stroke-dasharray="5 3"/>
+  <text x="450" y="570" font-size="9" font-style="italic" fill="#15803d">«infrastructure»</text>
+  <text x="450" y="583" font-size="8" fill="#475569">Docker containers  ·  Kubernetes orchestration</text>
+  <text x="450" y="595" font-size="8" fill="#475569">CI/CD pipeline  ·  Health checks  ·  Auto-scaling</text>
+
+  <!-- ══════════════════════════════════════════════════
+       BOTTOM: ENV COMPARISON BAR
+  ══════════════════════════════════════════════════ -->
+  <rect x="18" y="340" width="358" height="290" rx="0" fill="#f8fafc" stroke="#0284c7" stroke-width="1" stroke-dasharray="6 3"/>
+  <polygon points="18,340 128,340 140,356 18,356" fill="#64748b"/>
+  <text x="26" y="352" font-size="8" font-weight="bold" fill="#fff">«note»</text>
+  <text x="74" y="352" font-size="8" fill="#e2e8f0">Dev characteristics</text>
+
+  <!-- Characteristic rows -->
+  <rect x="28" y="362" width="338" height="22" rx="3" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="36"  y="377" font-size="9" font-weight="bold" fill="#0369a1">Database</text>
+  <text x="120" y="377" font-size="9" fill="#0f172a">SQLite3 (single file)</text>
+
+  <rect x="28" y="390" width="338" height="22" rx="3" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="36"  y="405" font-size="9" font-weight="bold" fill="#475569">Concurrency</text>
+  <text x="120" y="405" font-size="9" fill="#0f172a">sync.Mutex (single process)</text>
+
+  <rect x="28" y="418" width="338" height="22" rx="3" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="36"  y="433" font-size="9" font-weight="bold" fill="#0369a1">Scaling</text>
+  <text x="120" y="433" font-size="9" fill="#0f172a">Single instance only</text>
+
+  <rect x="28" y="446" width="338" height="22" rx="3" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="36"  y="461" font-size="9" font-weight="bold" fill="#475569">Port</text>
+  <text x="120" y="461" font-size="9" fill="#0f172a">localhost:8080</text>
+
+  <rect x="28" y="474" width="338" height="22" rx="3" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="36"  y="489" font-size="9" font-weight="bold" fill="#0369a1">Testing</text>
+  <text x="120" y="489" font-size="9" fill="#0f172a">curl / Postman (manual)</text>
+
+  <rect x="28" y="502" width="338" height="22" rx="3" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="36"  y="517" font-size="9" font-weight="bold" fill="#475569">TLS / SSL</text>
+  <text x="120" y="517" font-size="9" fill="#0f172a">None</text>
+
+  <rect x="28" y="530" width="338" height="22" rx="3" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="36"  y="545" font-size="9" font-weight="bold" fill="#0369a1">Availability</text>
+  <text x="120" y="545" font-size="9" fill="#0f172a">Developer uptime only</text>
+
+  <rect x="28" y="558" width="338" height="22" rx="3" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="36"  y="573" font-size="9" font-weight="bold" fill="#475569">Deploy cmd</text>
+  <text x="120" y="573" font-size="9" font-weight="bold" fill="#0369a1">go run main.go</text>
+
+  <!-- bottom note -->
+  <rect x="18" y="644" width="724" height="26" rx="3" fill="#f1f5f9" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="390" y="660" text-anchor="middle" font-size="8" fill="#64748b">«note»  Current implementation targets Development only — Production topology shown as future migration target</text>
+
+</svg>

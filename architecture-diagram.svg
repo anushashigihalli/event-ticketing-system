@@ -1,0 +1,135 @@
+<svg viewBox="0 0 900 820" xmlns="http://www.w3.org/2000/svg" font-family="'Courier New', monospace">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#334155"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#00000022"/>
+    </filter>
+    <style>
+      .layer-label { font-size: 11px; font-weight: bold; letter-spacing: 2px; }
+      .box-title   { font-size: 12px; font-weight: bold; }
+      .box-text    { font-size: 10px; }
+      .stereo      { font-size: 9px; font-style: italic; }
+    </style>
+  </defs>
+
+  <rect width="900" height="820" fill="#f8fafc"/>
+
+  <!-- Title -->
+  <text x="450" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#0f172a" letter-spacing="1">Event Booking System — Architecture Diagram</text>
+
+  <!-- ═══ LAYER 1: CLIENT ═══ -->
+  <rect x="20" y="50" width="860" height="100" rx="4" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="1"/>
+  <text x="28" y="67" class="layer-label" fill="#0369a1">«LAYER» CLIENT</text>
+
+  <rect x="50"  y="72" width="110" height="60" rx="4" fill="#fff" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="105" y="89"  text-anchor="middle" class="stereo"    fill="#64748b">«tool»</text>
+  <text x="105" y="105" text-anchor="middle" class="box-title" fill="#0f172a">curl</text>
+  <text x="105" y="120" text-anchor="middle" class="box-text"  fill="#475569">/ Postman</text>
+
+  <rect x="185" y="72" width="120" height="60" rx="4" fill="#fff" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="245" y="89"  text-anchor="middle" class="stereo"    fill="#64748b">«browser»</text>
+  <text x="245" y="107" text-anchor="middle" class="box-title" fill="#0f172a">Web Frontend</text>
+
+  <rect x="330" y="72" width="120" height="60" rx="4" fill="#fff" stroke="#38bdf8" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="390" y="89"  text-anchor="middle" class="stereo"    fill="#64748b">«mobile»</text>
+  <text x="390" y="107" text-anchor="middle" class="box-title" fill="#0f172a">Mobile App</text>
+
+  <!-- Arrow Client to App -->
+  <line x1="450" y1="155" x2="450" y2="185" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="368" y="160" width="165" height="20" rx="3" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="450" y="174" text-anchor="middle" font-size="10" fill="#475569">HTTP / JSON  (Port 8080)</text>
+
+  <!-- ═══ LAYER 2: APPLICATION ═══ -->
+  <rect x="20" y="190" width="860" height="435" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="28" y="207" class="layer-label" fill="#15803d">«LAYER» APPLICATION</text>
+
+  <!-- HTTP Server -->
+  <rect x="300" y="214" width="300" height="56" rx="4" fill="#fff" stroke="#4ade80" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="450" y="231" text-anchor="middle" class="stereo"    fill="#64748b">«server»</text>
+  <text x="450" y="248" text-anchor="middle" class="box-title" fill="#0f172a">Go HTTP Server  (net/http)</text>
+  <text x="450" y="263" text-anchor="middle" class="box-text"  fill="#475569">Port: 8080</text>
+
+  <line x1="450" y1="270" x2="450" y2="298" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- API Handlers group -->
+  <rect x="58" y="298" width="784" height="90" rx="4" fill="#dcfce7" stroke="#86efac" stroke-width="1" stroke-dasharray="6 3"/>
+  <text x="72" y="313" class="stereo" fill="#16a34a">«component group» API Handlers</text>
+
+  <rect x="80"  y="320" width="198" height="56" rx="4" fill="#fff" stroke="#22c55e" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="179" y="337" text-anchor="middle" class="stereo"    fill="#64748b">«handler»</text>
+  <text x="179" y="353" text-anchor="middle" class="box-title" fill="#0f172a">Events Handler</text>
+  <text x="179" y="368" text-anchor="middle" class="box-text"  fill="#475569">GET / POST /events</text>
+
+  <rect x="301" y="320" width="198" height="56" rx="4" fill="#fff" stroke="#22c55e" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="400" y="337" text-anchor="middle" class="stereo"    fill="#64748b">«handler»</text>
+  <text x="400" y="353" text-anchor="middle" class="box-title" fill="#0f172a">Bookings Handler</text>
+  <text x="400" y="368" text-anchor="middle" class="box-text"  fill="#475569">POST /bookings</text>
+
+  <rect x="522" y="320" width="198" height="56" rx="4" fill="#fff" stroke="#22c55e" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="621" y="337" text-anchor="middle" class="stereo"    fill="#64748b">«handler»</text>
+  <text x="621" y="353" text-anchor="middle" class="box-title" fill="#0f172a">Availability Handler</text>
+  <text x="621" y="368" text-anchor="middle" class="box-text"  fill="#475569">GET /availability</text>
+
+  <line x1="450" y1="390" x2="450" y2="416" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Concurrency Control -->
+  <rect x="188" y="416" width="524" height="92" rx="4" fill="#fff" stroke="#f59e0b" stroke-width="2" filter="url(#shadow)"/>
+  <text x="450" y="433" text-anchor="middle" class="stereo"    fill="#b45309">«mutex»</text>
+  <text x="450" y="449" text-anchor="middle" class="box-title" fill="#0f172a">Concurrency Control</text>
+  <text x="450" y="464" text-anchor="middle" font-size="10"    fill="#475569" font-family="Courier New">var bookingMutex sync.Mutex</text>
+  <rect x="208" y="471" width="484" height="28" rx="3" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/>
+  <text x="450" y="482" text-anchor="middle" font-size="9" fill="#92400e">Lock → Check Availability → Update DB</text>
+  <text x="450" y="495" text-anchor="middle" font-size="9" fill="#92400e">→ Commit Transaction → Unlock</text>
+
+  <line x1="450" y1="510" x2="450" y2="534" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Business Logic -->
+  <rect x="188" y="534" width="524" height="74" rx="4" fill="#fff" stroke="#a3e635" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="450" y="551" text-anchor="middle" class="stereo"    fill="#4d7c0f">«component»</text>
+  <text x="450" y="567" text-anchor="middle" class="box-title" fill="#0f172a">Business Logic</text>
+  <text x="450" y="582" text-anchor="middle" class="box-text"  fill="#475569">Input Validation  ·  Availability Checking</text>
+  <text x="450" y="597" text-anchor="middle" class="box-text"  fill="#475569">Booking Creation  ·  Error Handling</text>
+
+  <!-- Arrow App to DB -->
+  <line x1="450" y1="622" x2="450" y2="650" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="376" y="627" width="150" height="20" rx="3" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="451" y="641" text-anchor="middle" font-size="10" fill="#475569">SQL Queries</text>
+
+  <!-- ═══ LAYER 3: DATABASE ═══ -->
+  <rect x="20" y="655" width="860" height="150" rx="4" fill="#faf5ff" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="28" y="672" class="layer-label" fill="#6d28d9">«LAYER» DATABASE</text>
+
+  <!-- SQLite outer -->
+  <rect x="50" y="678" width="800" height="114" rx="4" fill="#fff" stroke="#a78bfa" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="450" y="695" text-anchor="middle" class="stereo"    fill="#7c3aed">«database»</text>
+  <text x="450" y="710" text-anchor="middle" class="box-title" fill="#0f172a">SQLite  (events.db)</text>
+
+  <!-- events table -->
+  <rect x="72" y="718" width="220" height="62" rx="3" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="182" y="733" text-anchor="middle" class="stereo"    fill="#6d28d9">«table»</text>
+  <text x="182" y="748" text-anchor="middle" class="box-title" fill="#0f172a">events</text>
+  <text x="182" y="762" text-anchor="middle" class="box-text"  fill="#475569">PK id · name · capacity</text>
+  <text x="182" y="775" text-anchor="middle" class="box-text"  fill="#475569">available · price</text>
+
+  <!-- FK arrow -->
+  <line x1="292" y1="749" x2="358" y2="749" stroke="#6d28d9" stroke-width="1.5" stroke-dasharray="4 2"/>
+  <polygon points="354,745 364,749 354,753" fill="#6d28d9"/>
+  <text x="325" y="743" text-anchor="middle" font-size="9" fill="#6d28d9">FK</text>
+
+  <!-- bookings table -->
+  <rect x="366" y="718" width="246" height="62" rx="3" fill="#ede9fe" stroke="#a78bfa" stroke-width="1.5"/>
+  <text x="489" y="733" text-anchor="middle" class="stereo"    fill="#6d28d9">«table»</text>
+  <text x="489" y="748" text-anchor="middle" class="box-title" fill="#0f172a">bookings</text>
+  <text x="489" y="762" text-anchor="middle" class="box-text"  fill="#475569">PK id · FK event_id · quantity</text>
+  <text x="489" y="775" text-anchor="middle" class="box-text"  fill="#475569">user_email · status</text>
+
+  <!-- Transaction note -->
+  <rect x="630" y="718" width="198" height="62" rx="3" fill="#fdf4ff" stroke="#e879f9" stroke-width="1" stroke-dasharray="4 2"/>
+  <text x="729" y="733" text-anchor="middle" font-size="9" font-style="italic" fill="#a21caf">«constraint»</text>
+  <text x="729" y="748" text-anchor="middle" font-size="9" fill="#0f172a">BEGIN → COMMIT</text>
+  <text x="729" y="762" text-anchor="middle" font-size="9" fill="#0f172a">ROLLBACK on error</text>
+  <text x="729" y="775" text-anchor="middle" font-size="9" fill="#0f172a">SERIALIZABLE isolation</text>
+
+</svg>
