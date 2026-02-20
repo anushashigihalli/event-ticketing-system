@@ -2,40 +2,40 @@
 
 ## High-Level Architecture
 
-![Architecture Diagram](architecture-diagram.svg)
+![Architecture Diagram](image/architecture-diagram.svg)
 
 ## Request Flow Diagram
 
 ### Normal Booking Flow (Success)
 
-![Sequence Diagram](sequence-diagram.svg)
+![Sequence Diagram](image/sequence-diagram.svg)
 
 ### Concurrent Booking Flow (Race Condition Prevented)
 
-![Concurrent Sequence Diagram](concurrent-sequence-diagram.svg)
+![Concurrent Sequence Diagram](image/concurrent-sequence-diagram.svg)
 
 ## Component Interaction Diagram
 
-![Module Diagram](module-diagram.svg)
+![Module Diagram](image/module-diagram.svg)
 
 ## Concurrency Control Mechanism
 
-![Mutex Serialization](mutex-serialization.svg)
+![Mutex Serialization](image/mutex-serialization.svg)
 
 ## Data Flow Diagram
 
-![API Flows Sequence](api-flows-sequence.svg)
+![API Flows Sequence](image/api-flows-sequence.svg)
 
 ## Technology Stack Layers
 
-![Layered Architecture](layered-architecture-framed.svg)
+![Layered Architecture](image/layered-architecture-framed.svg)
 
 ## Deployment Architecture
 
-![Deployment Diagram](deployment-diagram.svg)
+![Deployment Diagram](image/deployment-diagram.svg)
 
 ## Error Handling Flow
 
-![Activity Diagram](activity-diagram.svg)
+![Activity Diagram](image/activity-diagram.svg)
 
 
