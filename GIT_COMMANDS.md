@@ -70,7 +70,7 @@ gh repo create event-ticketing-system --public --source=. --remote=origin
 ### Step 6: Connect Local to GitHub
 ```bash
 # Add GitHub repository as remote
-git remote add origin https://github.com/[YOUR-USERNAME]/event-ticketing-system.git
+git remote add origin https://github.com/anushashigihalli/event-ticketing-system.git
 
 # Verify remote is added
 git remote -v
@@ -169,22 +169,22 @@ git merge feature-name
 
 Before submitting, verify:
 
-✅ All files committed and pushed
+ All files committed and pushed
 ```bash
 git status  # Should show "nothing to commit, working tree clean"
 ```
 
-✅ GitHub repository is public
+ GitHub repository is public
 - Go to repository settings
 - Ensure it's not private
 
-✅ README.md displays correctly
+ README.md displays correctly
 - Check on GitHub web interface
 
-✅ Repository URL is correct
+ Repository URL is correct
 - Format: `https://github.com/[YOUR-USERNAME]/event-ticketing-system`
 
-✅ All required files present:
+ All required files present:
 - [ ] main.go
 - [ ] test_concurrency.go
 - [ ] go.mod
