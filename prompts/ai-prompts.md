@@ -4,16 +4,12 @@ This document records all AI prompts used during the development of this project
 
 ## Project Information
 - **Project**: Event Registration & Ticketing System API
-- **Student**: [Your Name]
-- **Date**: [Current Date]
-- **AI Tool Used**: Kiro AI Assistant
+- **Student**: Anusha Umesh Shigihalli
 
 ---
 
 ## Prompt 1: Initial Project Setup
 
-**Date**: [Current Date]  
-**Purpose**: Complete project scaffolding and implementation
 
 **Prompt**:
 ```
@@ -97,8 +93,7 @@ The AI provided a complete project structure including:
 
 ## Prompt 2: [If you used additional prompts, add them here]
 
-**Date**: [Date]  
-**Purpose**: [Purpose]
+
 
 **Prompt**:
 ```

@@ -359,6 +359,4 @@ The mutex-based approach trades some performance for guaranteed correctness, whi
 
 ---
 
-**Design Approved By**: [Your Name]  
-**Date**: [Current Date]  
-**Version**: 1.0
+

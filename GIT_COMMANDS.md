@@ -94,7 +94,7 @@ git push -u origin main
 ```
 
 ### Step 8: Verify Upload
-1. Go to https://github.com/[YOUR-USERNAME]/event-ticketing-system
+1. Go to https://github.com/anushashigihalli/event-ticketing-system
 2. Verify all files are present
 3. Check README.md displays correctly
 
