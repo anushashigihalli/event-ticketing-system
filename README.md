@@ -12,7 +12,8 @@ This system allows:
 ## Architecture
 
 ### Technology Stack
-- **Language**: Go 1.21+
+- **Backend**: Go 1.21+
+- **Frontend**: HTML5, CSS3 (Vanilla, Custom Glassmorphism UI), Vanilla JS
 - **Database**: SQLite3 (file-based, zero-configuration)
 - **Concurrency**: sync.Mutex for thread-safe operations
 - **HTTP**: Standard library net/http

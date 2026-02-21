@@ -64,6 +64,10 @@ func main() {
 	http.HandleFunc("/bookings", handleBookings)
 	http.HandleFunc("/bookings/check", handleCheckAvailability)
 
+	// Serve static files from the public directory
+	fs := http.FileServer(http.Dir("./public"))
+	http.Handle("/", fs)
+
 	// Start server
 	port := ":8080"
 	fmt.Printf("🚀 Server starting on http://localhost%s\n", port)

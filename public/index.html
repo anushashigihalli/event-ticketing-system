@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stellar Events | Premium Ticketing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="background-elements">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Header Navigation -->
+    <header class="glass-header">
+        <div class="container header-container">
+            <a href="#" class="brand">
+                <i class="fa-solid fa-ticket-simple header-icon"></i>
+                <span>Stellar<span class="brand-accent">Events</span></span>
+            </a>
+            <nav class="nav-links">
+                <a href="#events-section" class="nav-link active">Gallery</a>
+                <button class="btn btn-primary btn-glow" id="btn-create-event-modal">
+                    <i class="fa-solid fa-plus"></i> Create Event
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1 class="hero-title">Experience <span class="text-gradient">Extraordinary</span> Moments</h1>
+            <p class="hero-subtitle">Discover and book exclusive events from around the world. Secure your spot before they're gone.</p>
+            <div class="hero-actions">
+                <a href="#events-section" class="btn btn-primary btn-large btn-glow">
+                    Explore Events
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container" id="events-section">
+        <div class="section-header">
+            <h2 class="section-title">Upcoming <span>Events</span></h2>
+            <div class="filter-controls">
+                <!-- Add filters if needed in the future -->
+                <div class="search-box glass-panel">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="search-events" placeholder="Search events...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="events-loading" class="state-container">
+            <div class="spinner"></div>
+            <p>Discovering events...</p>
+        </div>
+
+        <!-- Empty State -->
+        <div id="events-empty" class="state-container hidden">
+            <div class="empty-icon glass-icon">
+                <i class="fa-solid fa-calendar-xmark"></i>
+            </div>
+            <h3>No Events Found</h3>
+            <p>There are currently no events matching your criteria or scheduled yet.</p>
+            <button class="btn btn-outline mt-4" id="btn-empty-create">Create the first event</button>
+        </div>
+
+        <!-- Events Grid -->
+        <div id="events-grid" class="events-grid hidden">
+            <!-- Event cards will be dynamically injected here -->
+        </div>
+    </main>
+
+    <!-- Create Event Modal -->
+    <div id="create-event-modal" class="modal-overlay hidden">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h3 class="modal-title">Create New Event</h3>
+                <button class="btn-icon modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="create-event-form" class="cyber-form">
+                    <div class="form-group">
+                        <label for="event-name">Event Name *</label>
+                        <input type="text" id="event-name" required placeholder="e.g., Neon Nights Festival">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="event-desc">Description</label>
+                        <textarea id="event-desc" rows="3" placeholder="Tell us about the event..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-date">Date & Time *</label>
+                            <input type="datetime-local" id="event-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="event-location">Location *</label>
+                            <input type="text" id="event-location" required placeholder="Venue or Virtual link">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="event-capacity">Capacity *</label>
+                            <input type="number" id="event-capacity" required min="1" placeholder="Max attendees">
+                        </div>
+                        <div class="form-group">
+                            <label for="event-price">Ticket Price ($) *</label>
+                            <input type="number" id="event-price" required min="0" step="0.01" placeholder="0.00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="organizer-id">Organizer ID</label>
+                        <input type="number" id="organizer-id" value="1" min="1" required>
+                    </div>
+
+                    <div class="form-actions mt-4">
+                        <button type="button" class="btn btn-ghost modal-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-glow" id="btn-submit-event">
+                            <span>Create Event</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="modal-overlay hidden">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h3 class="modal-title">Secure Your Tickets</h3>
+                <button class="btn-icon modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="booking-event-details glass-card mb-4" id="booking-event-preview">
+                    <!-- Populated via JS -->
+                </div>
+
+                <form id="booking-form" class="cyber-form">
+                    <input type="hidden" id="book-event-id">
+                    
+                    <div class="form-group">
+                        <label for="book-name">Full Name *</label>
+                        <input type="text" id="book-name" required placeholder="Your name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="book-email">Email Address *</label>
+                        <input type="email" id="book-email" required placeholder="you@example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="book-quantity">Quantity *</label>
+                        <div class="quantity-selector">
+                            <button type="button" class="btn-icon qty-btn" id="qty-minus"><i class="fa-solid fa-minus"></i></button>
+                            <input type="number" id="book-quantity" required min="1" value="1" readonly>
+                            <button type="button" class="btn-icon qty-btn" id="qty-plus"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                        <p class="helper-text mt-2"><span id="seats-available-text">Checking availability...</span></p>
+                    </div>
+
+                    <div class="booking-summary mt-4">
+                        <div class="summary-row">
+                            <span>Price per ticket</span>
+                            <span id="summary-price">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Quantity</span>
+                            <span id="summary-qty">x 1</span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-row summary-total">
+                            <span>Total</span>
+                            <span id="summary-total" class="text-gradient">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions mt-4">
+                        <button type="button" class="btn btn-ghost modal-cancel">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-glow btn-checkout" id="btn-submit-booking">
+                            <i class="fa-solid fa-lock"></i> Confirm Booking
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="brand">
+                <i class="fa-solid fa-ticket-simple header-icon"></i>
+                <span>Stellar<span class="brand-accent">Events</span></span>
+            </div>
+            <p class="footer-text">&copy; 2026 Stellar Events Ticketing System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
