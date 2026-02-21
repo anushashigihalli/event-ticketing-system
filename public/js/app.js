@@ -230,8 +230,10 @@ async function checkRealTimeAvailability(eventId) {
 
         if (result.success) {
             const available = result.data.available;
+            const event = eventsData.find(e => e.id === eventId);
 
-            if (available > 0) {
+            // Button is enabled ONLY if the event has full availability (no tickets sold)
+            if (event && available === event.capacity) {
                 elements.btnSubmitBooking.disabled = false;
             } else {
                 elements.btnSubmitBooking.disabled = true;
@@ -255,15 +257,9 @@ async function handleBookingSubmit(e) {
     const btnSubmit = elements.btnSubmitBooking;
     const originalText = btnSubmit.innerHTML;
 
-    if (event.available < 1) {
-        showToast('Error', 'Not enough tickets available.', 'error');
-        return;
-    }
-
-    // Check if user is "john"
-    const userNameInput = document.getElementById('book-name').value.trim().toLowerCase();
-    if (userNameInput !== 'john') {
-        showToast('Access Denied', 'Only "john" is authorized to book events.', 'error');
+    // Check if event already has any bookings
+    if (event.available < event.capacity) {
+        showToast('Error', 'This event has already been booked.', 'error');
         return;
     }
 
@@ -401,19 +397,18 @@ function renderEvents(events) {
         let btnText = 'Book Ticket';
 
         const hasBooked = myBookings.has(event.id);
+        const isBookedOut = event.available < event.capacity;
 
-        if (event.available === 0) {
-            statusBadge = '<span class="badge badge-soldout">Sold Out</span>';
+        if (isBookedOut) {
+            statusBadge = '<span class="badge badge-soldout">Booked</span>';
             btnDisabled = 'disabled style="opacity: 0.5; cursor: not-allowed;"';
-            btnText = 'Sold Out';
-        } else if (event.available <= 5) {
-            statusBadge = '<span class="badge badge-warning">Selling Fast</span>';
+            btnText = 'Booked';
         } else {
             statusBadge = '<span class="badge badge-available">Available</span>';
         }
 
         if (hasBooked) {
-            statusBadge += ' <span class="badge badge-available" style="margin-left: 0.5rem; background: rgba(124, 58, 237, 0.15); color: #a78bfa; border-color: rgba(124, 58, 237, 0.3);">Booked (You)</span>';
+            statusBadge += ' <span class="badge badge-soldout" style="margin-left: 0.5rem; background: rgba(124, 58, 237, 0.15); color: #a78bfa; border-color: rgba(124, 58, 237, 0.3);">Booked (You)</span>';
         }
 
         const card = document.createElement('div');
