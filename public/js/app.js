@@ -35,10 +35,6 @@ const elements = {
     closeButtons: document.querySelectorAll('.modal-close, .modal-cancel'),
 
     // Booking Form specific elements
-    qtyMinus: document.getElementById('qty-minus'),
-    qtyPlus: document.getElementById('qty-plus'),
-    qtyInput: document.getElementById('book-quantity'),
-    seatsText: document.getElementById('seats-available-text'),
     summaryPrice: document.getElementById('summary-price'),
     summaryQty: document.getElementById('summary-qty'),
     summaryTotal: document.getElementById('summary-total'),
@@ -97,10 +93,6 @@ function setupEventListeners() {
         const term = e.target.value.toLowerCase();
         filterEvents(term);
     });
-
-    // Quantity selector in booking form
-    elements.qtyMinus.addEventListener('click', () => updateQuantity(-1));
-    elements.qtyPlus.addEventListener('click', () => updateQuantity(1));
 }
 
 // ==========================================================================
@@ -204,8 +196,6 @@ async function initiateBooking(eventId) {
 
     // Reset form
     elements.bookingForm.reset();
-    elements.qtyInput.value = 1;
-    elements.qtyInput.max = event.available;
 
     // Populate preview
     const dateObj = new Date(event.date);
@@ -223,7 +213,7 @@ async function initiateBooking(eventId) {
     updateBookingSummary(event.price, 1);
 
     // Check real-time availability just in case
-    checkRealTimeAvailability(event.id, event.price);
+    checkRealTimeAvailability(event.id);
 
     openModal(elements.bookingModal);
 }
@@ -231,9 +221,7 @@ async function initiateBooking(eventId) {
 /**
  * Check real-time availability
  */
-async function checkRealTimeAvailability(eventId, price) {
-    elements.seatsText.textContent = 'Checking real-time availability...';
-    elements.seatsText.className = 'helper-text';
+async function checkRealTimeAvailability(eventId) {
     elements.btnSubmitBooking.disabled = true;
 
     try {
@@ -244,32 +232,12 @@ async function checkRealTimeAvailability(eventId, price) {
             const available = result.data.available;
 
             if (available > 0) {
-                elements.qtyInput.max = available;
-
-                if (available <= 5) {
-                    elements.seatsText.textContent = `Hurry! Only ${available} seats remaining.`;
-                    elements.seatsText.className = 'helper-text warning';
-                } else {
-                    elements.seatsText.textContent = `${available} seats currently available.`;
-                    elements.seatsText.className = 'helper-text';
-                }
-
-                // Adjust quantity if exceeds max
-                let currentVal = parseInt(elements.qtyInput.value, 10);
-                if (currentVal > available) {
-                    elements.qtyInput.value = available;
-                    updateBookingSummary(price, available);
-                }
-
                 elements.btnSubmitBooking.disabled = false;
             } else {
-                elements.seatsText.textContent = 'Sorry, this event just sold out.';
-                elements.seatsText.className = 'helper-text error';
                 elements.btnSubmitBooking.disabled = true;
             }
         }
     } catch (error) {
-        elements.seatsText.textContent = 'Could not verify real-time availability.';
         elements.btnSubmitBooking.disabled = false; // Allow optimistic attempt
     }
 }
@@ -283,11 +251,11 @@ async function handleBookingSubmit(e) {
     const event = eventsData.find(e => e.id === currentBookingEventId);
     if (!event) return;
 
-    const qty = parseInt(elements.qtyInput.value, 10);
+    const qty = 1; // Locked to 1 ticket per person
     const btnSubmit = elements.btnSubmitBooking;
     const originalText = btnSubmit.innerHTML;
 
-    if (qty > event.available) {
+    if (event.available < 1) {
         showToast('Error', 'Not enough tickets available.', 'error');
         return;
     }
@@ -313,14 +281,14 @@ async function handleBookingSubmit(e) {
 
         if (response.ok && result.success) {
             myBookings.add(currentBookingEventId);
-            showToast('Booking Confirmed!', `Successfully booked ${qty} tickets.`, 'success');
+            showToast('Booking Confirmed!', `Successfully booked ${qty} ticket.`, 'success');
             closeModal(elements.bookingModal);
             fetchEvents(); // Refresh data to show updated capacity
         } else {
-            showToast('Booking Failed', result.message || 'The tickets might have been sold out.', 'error');
+            showToast('Booking Failed', result.message || 'The ticket might have been sold out.', 'error');
             // If conflict, check availability again
             if (response.status === 409) {
-                checkRealTimeAvailability(currentBookingEventId, event.price);
+                checkRealTimeAvailability(currentBookingEventId);
             }
         }
     } catch (error) {
@@ -423,7 +391,7 @@ function renderEvents(events) {
         // Status calculations
         let statusBadge = '';
         let btnDisabled = '';
-        let btnText = 'Book Tickets';
+        let btnText = 'Book Ticket';
 
         const hasBooked = myBookings.has(event.id);
 
@@ -537,29 +505,6 @@ function openModal(modal) {
 function closeModal(modal) {
     modal.classList.add('hidden');
     document.body.style.overflow = '';
-}
-
-function updateQuantity(change) {
-    const input = elements.qtyInput;
-    let val = parseInt(input.value, 10);
-    const max = parseInt(input.max, 10) || 1;
-
-    if (isNaN(val)) val = 1;
-    val += change;
-
-    if (val < 1) val = 1;
-    if (val > max) {
-        val = max;
-        showToast('Info', `Only ${max} tickets available`, 'warning');
-    }
-
-    input.value = val;
-
-    // Update summary
-    const event = eventsData.find(e => e.id === currentBookingEventId);
-    if (event) {
-        updateBookingSummary(event.price, val);
-    }
 }
 
 function updateBookingSummary(price, qty) {
