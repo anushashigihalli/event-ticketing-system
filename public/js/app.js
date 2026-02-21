@@ -16,20 +16,20 @@ const elements = {
     eventsLoading: document.getElementById('events-loading'),
     eventsEmpty: document.getElementById('events-empty'),
     toastContainer: document.getElementById('toast-container'),
-    
+
     // Modals
     createModal: document.getElementById('create-event-modal'),
     bookingModal: document.getElementById('booking-modal'),
-    
+
     // Forms
     createForm: document.getElementById('create-event-form'),
     bookingForm: document.getElementById('booking-form'),
-    
+
     // Buttons (Global)
     btnCreateModal: document.getElementById('btn-create-event-modal'),
     btnEmptyCreate: document.getElementById('btn-empty-create'),
     closeButtons: document.querySelectorAll('.modal-close, .modal-cancel'),
-    
+
     // Booking Form specific elements
     qtyMinus: document.getElementById('qty-minus'),
     qtyPlus: document.getElementById('qty-plus'),
@@ -61,7 +61,7 @@ function setupEventListeners() {
     // Modal controls
     elements.btnCreateModal.addEventListener('click', () => openModal(elements.createModal));
     elements.btnEmptyCreate.addEventListener('click', () => openModal(elements.createModal));
-    
+
     elements.closeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             closeModal(elements.createModal);
@@ -100,14 +100,14 @@ function setupEventListeners() {
  */
 async function fetchEvents() {
     showState('loading');
-    
+
     try {
         const response = await fetch(`${API_URL}/events`);
         const result = await response.json();
-        
+
         if (result.success) {
             eventsData = result.data || [];
-            
+
             if (eventsData.length === 0) {
                 showState('empty');
             } else {
@@ -130,12 +130,12 @@ async function fetchEvents() {
  */
 async function handleCreateEvent(e) {
     e.preventDefault();
-    
+
     const submitBtn = document.getElementById('btn-submit-event');
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating...';
     submitBtn.disabled = true;
-    
+
     // Convert local datetime to ISO string keeping local time structure for simple display
     const dateInput = document.getElementById('event-date').value;
     const formattedDate = new Date(dateInput).toISOString().slice(0, 16).replace('T', ' ');
@@ -156,9 +156,9 @@ async function handleCreateEvent(e) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-        
+
         const result = await response.json();
-        
+
         if (result.success) {
             showToast('Success', 'Event created successfully!', 'success');
             closeModal(elements.createModal);
@@ -182,37 +182,37 @@ async function handleCreateEvent(e) {
 async function initiateBooking(eventId) {
     const event = eventsData.find(e => e.id === eventId);
     if (!event) return;
-    
+
     if (event.available <= 0) {
         showToast('Sold Out', 'Sorry, this event is completely sold out.', 'warning');
         return;
     }
 
     currentBookingEventId = event.id;
-    
+
     // Reset form
     elements.bookingForm.reset();
     elements.qtyInput.value = 1;
     elements.qtyInput.max = event.available;
-    
+
     // Populate preview
     const dateObj = new Date(event.date);
     const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
     const timeStr = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-    
+
     elements.bookingPreview.innerHTML = `
         <h4 style="margin-bottom: 0.5rem; font-family: var(--font-heading);">${event.name}</h4>
         <div class="meta-item"><i class="fa-solid fa-calendar"></i> ${dateStr} • ${timeStr}</div>
         <div class="meta-item mt-2"><i class="fa-solid fa-location-dot"></i> ${event.location}</div>
     `;
-    
+
     // Setup summary pricing
     elements.summaryPrice.textContent = formatCurrency(event.price);
     updateBookingSummary(event.price, 1);
-    
+
     // Check real-time availability just in case
     checkRealTimeAvailability(event.id, event.price);
-    
+
     openModal(elements.bookingModal);
 }
 
@@ -223,17 +223,17 @@ async function checkRealTimeAvailability(eventId, price) {
     elements.seatsText.textContent = 'Checking real-time availability...';
     elements.seatsText.className = 'helper-text';
     elements.btnSubmitBooking.disabled = true;
-    
+
     try {
         const response = await fetch(`${API_URL}/bookings/check?event_id=${eventId}`);
         const result = await response.json();
-        
+
         if (result.success) {
             const available = result.data.available;
-            
+
             if (available > 0) {
                 elements.qtyInput.max = available;
-                
+
                 if (available <= 5) {
                     elements.seatsText.textContent = `Hurry! Only ${available} seats remaining.`;
                     elements.seatsText.className = 'helper-text warning';
@@ -241,14 +241,14 @@ async function checkRealTimeAvailability(eventId, price) {
                     elements.seatsText.textContent = `${available} seats currently available.`;
                     elements.seatsText.className = 'helper-text';
                 }
-                
+
                 // Adjust quantity if exceeds max
                 let currentVal = parseInt(elements.qtyInput.value, 10);
                 if (currentVal > available) {
                     elements.qtyInput.value = available;
                     updateBookingSummary(price, available);
                 }
-                
+
                 elements.btnSubmitBooking.disabled = false;
             } else {
                 elements.seatsText.textContent = 'Sorry, this event just sold out.';
@@ -267,14 +267,14 @@ async function checkRealTimeAvailability(eventId, price) {
  */
 async function handleBookingSubmit(e) {
     e.preventDefault();
-    
+
     const event = eventsData.find(e => e.id === currentBookingEventId);
     if (!event) return;
-    
+
     const qty = parseInt(elements.qtyInput.value, 10);
     const btnSubmit = elements.btnSubmitBooking;
     const originalText = btnSubmit.innerHTML;
-    
+
     if (qty > event.available) {
         showToast('Error', 'Not enough tickets available.', 'error');
         return;
@@ -296,9 +296,9 @@ async function handleBookingSubmit(e) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-        
+
         const result = await response.json();
-        
+
         if (response.ok && result.success) {
             showToast('Booking Confirmed!', `Successfully booked ${qty} tickets.`, 'success');
             closeModal(elements.bookingModal);
@@ -326,21 +326,21 @@ async function handleBookingSubmit(e) {
 
 function renderEvents(events) {
     elements.eventsGrid.innerHTML = '';
-    
+
     events.forEach(event => {
         const dateObj = new Date(event.date.replace(/-/g, '/').replace(/T/g, ' '));
         const monthStr = dateObj.toLocaleDateString('en-US', { month: 'short' });
         const dayStr = dateObj.getDate();
         const fullDateStr = isNaN(dateObj) ? event.date : dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        
+
         const priceStr = event.price === 0 ? 'Free' : formatCurrency(event.price);
         const priceClass = event.price === 0 ? 'free' : '';
-        
+
         // Status calculations
         let statusBadge = '';
         let btnDisabled = '';
         let btnText = 'Book Tickets';
-        
+
         if (event.available === 0) {
             statusBadge = '<span class="badge badge-soldout">Sold Out</span>';
             btnDisabled = 'disabled style="opacity: 0.5; cursor: not-allowed;"';
@@ -391,7 +391,7 @@ function renderEvents(events) {
                 </div>
             </div>
         `;
-        
+
         elements.eventsGrid.appendChild(card);
     });
 }
@@ -402,13 +402,13 @@ function filterEvents(term) {
         if (eventsData.length > 0) showState('content');
         return;
     }
-    
-    const filtered = eventsData.filter(e => 
-        e.name.toLowerCase().includes(term) || 
+
+    const filtered = eventsData.filter(e =>
+        e.name.toLowerCase().includes(term) ||
         e.location.toLowerCase().includes(term) ||
         (e.description && e.description.toLowerCase().includes(term))
     );
-    
+
     if (filtered.length === 0) {
         showState('empty');
         elements.btnEmptyCreate.parentElement.querySelector('h3').textContent = 'No matches found';
@@ -428,7 +428,7 @@ function showState(state) {
     elements.eventsLoading.classList.add('hidden');
     elements.eventsEmpty.classList.add('hidden');
     elements.eventsGrid.classList.add('hidden');
-    
+
     if (state === 'loading') elements.eventsLoading.classList.remove('hidden');
     if (state === 'empty') elements.eventsEmpty.classList.remove('hidden');
     if (state === 'content') elements.eventsGrid.classList.remove('hidden');
@@ -448,18 +448,18 @@ function updateQuantity(change) {
     const input = elements.qtyInput;
     let val = parseInt(input.value, 10);
     const max = parseInt(input.max, 10) || 1;
-    
+
     if (isNaN(val)) val = 1;
     val += change;
-    
+
     if (val < 1) val = 1;
     if (val > max) {
         val = max;
         showToast('Info', `Only ${max} tickets available`, 'warning');
     }
-    
+
     input.value = val;
-    
+
     // Update summary
     const event = eventsData.find(e => e.id === currentBookingEventId);
     if (event) {
@@ -474,9 +474,9 @@ function updateBookingSummary(price, qty) {
 }
 
 function formatCurrency(amount) {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
         style: 'currency',
-        currency: 'USD'
+        currency: 'INR'
     }).format(amount);
 }
 
@@ -491,19 +491,19 @@ function escapeHTML(str) {
  */
 function showToast(title, message, type = 'success') {
     const toastId = 'toast-' + Date.now();
-    
+
     const iconMap = {
         'success': 'fa-circle-check',
         'error': 'fa-circle-exclamation',
         'warning': 'fa-triangle-exclamation'
     };
-    
+
     const iconClass = iconMap[type] || 'fa-info-circle';
-    
+
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.id = toastId;
-    
+
     toast.innerHTML = `
         <i class="fa-solid ${iconClass}" style="margin-top: 3px;"></i>
         <div class="toast-content" style="flex-grow: 1;">
@@ -514,9 +514,9 @@ function showToast(title, message, type = 'success') {
             <i class="fa-solid fa-xmark"></i>
         </button>
     `;
-    
+
     elements.toastContainer.appendChild(toast);
-    
+
     // Auto remove after 5s
     setTimeout(() => {
         removeToast(toastId);
@@ -525,7 +525,7 @@ function showToast(title, message, type = 'success') {
 
 // Global scope for onclick handlers
 window.initiateBooking = initiateBooking;
-window.removeToast = function(id) {
+window.removeToast = function (id) {
     const toast = document.getElementById(id);
     if (toast) {
         toast.classList.add('hiding');
