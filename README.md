@@ -97,6 +97,17 @@ go run main.go
 
 Server starts at `http://localhost:8080`
 
+### Accessing the Application
+
+**Frontend UI:**
+- **Web App**: [http://localhost:8080](http://localhost:8080)
+
+**Backend API Endpoints:**
+- **All Events**: `http://localhost:8080/events` (GET/POST)
+- **Single Event**: `http://localhost:8080/events/{id}` (GET)
+- **Bookings**: `http://localhost:8080/bookings` (GET/POST)
+- **Check Availability**: `http://localhost:8080/bookings/check?event_id=1` (GET)
+
 ##  API Endpoints
 
 ### 1. Create Event
