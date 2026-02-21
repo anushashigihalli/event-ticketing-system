@@ -1,8 +1,8 @@
-# Event Registration & Ticketing System API
+# Utsav Tickets API (Event Registration & Ticketing System)
 
 A production-ready REST API for event registration and ticketing built with Go, featuring robust concurrency control to prevent overbooking scenarios.
 
-##  Project Overview
+## Project Overview
 
 This system allows:
 - **Users**: Browse events and register for tickets
