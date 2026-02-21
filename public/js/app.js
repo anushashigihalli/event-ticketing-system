@@ -260,6 +260,13 @@ async function handleBookingSubmit(e) {
         return;
     }
 
+    // Check if user is "john"
+    const userNameInput = document.getElementById('book-name').value.trim().toLowerCase();
+    if (userNameInput !== 'john') {
+        showToast('Access Denied', 'Only "john" is authorized to book events.', 'error');
+        return;
+    }
+
     btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
     btnSubmit.disabled = true;
 
