@@ -9,6 +9,9 @@ const API_URL = ''; // Relative URL since it's served from the same host
 let eventsData = [];
 let currentBookingEventId = null;
 
+// Track bookings made during this session
+const myBookings = new Set();
+
 // DOM Elements
 const elements = {
     // Containers
@@ -20,6 +23,7 @@ const elements = {
     // Modals
     createModal: document.getElementById('create-event-modal'),
     bookingModal: document.getElementById('booking-modal'),
+    attendeesModal: document.getElementById('attendees-modal'),
 
     // Forms
     createForm: document.getElementById('create-event-form'),
@@ -39,7 +43,14 @@ const elements = {
     summaryQty: document.getElementById('summary-qty'),
     summaryTotal: document.getElementById('summary-total'),
     bookingPreview: document.getElementById('booking-event-preview'),
-    btnSubmitBooking: document.getElementById('btn-submit-booking')
+    btnSubmitBooking: document.getElementById('btn-submit-booking'),
+
+    // Attendees specific elements
+    attendeesPreview: document.getElementById('attendees-event-preview'),
+    attendeesLoading: document.getElementById('attendees-loading'),
+    attendeesEmpty: document.getElementById('attendees-empty'),
+    attendeesListContainer: document.getElementById('attendees-list-container'),
+    attendeesList: document.getElementById('attendees-list')
 };
 
 // ==========================================================================
@@ -66,6 +77,7 @@ function setupEventListeners() {
         btn.addEventListener('click', () => {
             closeModal(elements.createModal);
             closeModal(elements.bookingModal);
+            closeModal(elements.attendeesModal);
         });
     });
 
@@ -300,6 +312,7 @@ async function handleBookingSubmit(e) {
         const result = await response.json();
 
         if (response.ok && result.success) {
+            myBookings.add(currentBookingEventId);
             showToast('Booking Confirmed!', `Successfully booked ${qty} tickets.`, 'success');
             closeModal(elements.bookingModal);
             fetchEvents(); // Refresh data to show updated capacity
@@ -317,6 +330,77 @@ async function handleBookingSubmit(e) {
             btnSubmit.innerHTML = originalText;
             btnSubmit.disabled = false;
         }
+    }
+}
+
+// ==========================================================================
+// API Operations - Attendees
+// ==========================================================================
+
+async function openAttendeesModal(eventId) {
+    const event = eventsData.find(e => e.id === eventId);
+    if (!event) return;
+
+    // Populate preview
+    const dateObj = new Date(event.date);
+    const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+    const timeStr = dateObj.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+    elements.attendeesPreview.innerHTML = `
+        <h4 style="margin-bottom: 0.5rem; font-family: var(--font-heading);">${escapeHTML(event.name)}</h4>
+        <div class="meta-item"><i class="fa-solid fa-calendar"></i> ${dateStr} • ${timeStr}</div>
+        <div class="meta-item mt-2"><i class="fa-solid fa-users"></i> ${event.capacity - event.available} attendees</div>
+    `;
+
+    elements.attendeesLoading.classList.remove('hidden');
+    elements.attendeesEmpty.classList.add('hidden');
+    elements.attendeesListContainer.classList.add('hidden');
+    elements.attendeesList.innerHTML = '';
+
+    openModal(elements.attendeesModal);
+
+    try {
+        const response = await fetch(`${API_URL}/bookings`);
+        const result = await response.json();
+
+        elements.attendeesLoading.classList.add('hidden');
+
+        if (result.success) {
+            const allBookings = result.data || [];
+            // Filter bookings for this event
+            const eventBookings = allBookings.filter(b => b.event_id === eventId);
+
+            if (eventBookings.length === 0) {
+                elements.attendeesEmpty.classList.remove('hidden');
+            } else {
+                elements.attendeesListContainer.classList.remove('hidden');
+                eventBookings.forEach(booking => {
+                    const li = document.createElement('li');
+                    li.className = 'attendee-item';
+
+                    const initial = booking.user_name ? booking.user_name.charAt(0).toUpperCase() : '?';
+
+                    li.innerHTML = `
+                        <div class="attendee-info">
+                            <div class="attendee-avatar">${initial}</div>
+                            <div class="attendee-details">
+                                <span class="attendee-name">${escapeHTML(booking.user_name)}</span>
+                                <span class="attendee-email">${escapeHTML(booking.user_email)}</span>
+                            </div>
+                        </div>
+                        <div class="attendee-qty">x${booking.quantity}</div>
+                    `;
+                    elements.attendeesList.appendChild(li);
+                });
+            }
+        } else {
+            showToast('Error', 'Failed to load attendees', 'error');
+            closeModal(elements.attendeesModal);
+        }
+    } catch (error) {
+        console.error('Fetch attendees error:', error);
+        showToast('Connection Error', 'Could not fetch attendees', 'error');
+        closeModal(elements.attendeesModal);
     }
 }
 
@@ -341,6 +425,8 @@ function renderEvents(events) {
         let btnDisabled = '';
         let btnText = 'Book Tickets';
 
+        const hasBooked = myBookings.has(event.id);
+
         if (event.available === 0) {
             statusBadge = '<span class="badge badge-soldout">Sold Out</span>';
             btnDisabled = 'disabled style="opacity: 0.5; cursor: not-allowed;"';
@@ -349,6 +435,10 @@ function renderEvents(events) {
             statusBadge = '<span class="badge badge-warning">Selling Fast</span>';
         } else {
             statusBadge = '<span class="badge badge-available">Available</span>';
+        }
+
+        if (hasBooked) {
+            statusBadge += ' <span class="badge badge-available" style="margin-left: 0.5rem; background: rgba(124, 58, 237, 0.15); color: #a78bfa; border-color: rgba(124, 58, 237, 0.3);">Booked (You)</span>';
         }
 
         const card = document.createElement('div');
@@ -385,9 +475,14 @@ function renderEvents(events) {
                 
                 <div class="event-footer">
                     <div class="event-price ${priceClass}">${priceStr}</div>
-                    <button class="btn btn-primary btn-glow" onclick="initiateBooking(${event.id})" ${btnDisabled}>
-                        ${btnText} <i class="fa-solid fa-arrow-right"></i>
-                    </button>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button class="btn btn-icon" onclick="openAttendeesModal(${event.id})" title="View Attendees">
+                            <i class="fa-solid fa-users-viewfinder"></i>
+                        </button>
+                        <button class="btn btn-primary btn-glow" onclick="initiateBooking(${event.id})" ${btnDisabled}>
+                            ${btnText} <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -525,6 +620,7 @@ function showToast(title, message, type = 'success') {
 
 // Global scope for onclick handlers
 window.initiateBooking = initiateBooking;
+window.openAttendeesModal = openAttendeesModal;
 window.removeToast = function (id) {
     const toast = document.getElementById(id);
     if (toast) {

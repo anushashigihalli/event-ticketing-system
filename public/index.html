@@ -210,6 +210,41 @@
         </div>
     </div>
 
+    <!-- View Attendees Modal -->
+    <div id="attendees-modal" class="modal-overlay hidden">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h3 class="modal-title">Event Attendees</h3>
+                <button class="btn-icon modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="booking-event-details glass-card mb-4" id="attendees-event-preview">
+                    <!-- Populated via JS -->
+                </div>
+
+                <div id="attendees-loading" class="state-container hidden" style="padding: 2rem;">
+                    <div class="spinner"></div>
+                    <p>Loading attendees...</p>
+                </div>
+
+                <div id="attendees-empty" class="state-container hidden" style="padding: 2rem;">
+                    <i class="fa-solid fa-users-slash empty-icon glass-icon mb-2"></i>
+                    <p>No one has booked this event yet.</p>
+                </div>
+
+                <div id="attendees-list-container" class="attendees-list-container hidden">
+                    <ul class="attendees-list" id="attendees-list">
+                        <!-- Populated via JS -->
+                    </ul>
+                </div>
+
+                <div class="form-actions mt-4">
+                    <button type="button" class="btn btn-ghost modal-cancel">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container footer-content">
